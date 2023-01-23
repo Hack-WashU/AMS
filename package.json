@@ -1,0 +1,12 @@
+{
+  "name": "AMS",
+  "version": "1.0.0",
+  "description": "Hack WashU's Application Management System",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Jack Heuberger",
+  "license": "ISC"
+}
