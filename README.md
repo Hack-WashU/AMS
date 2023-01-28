@@ -5,4 +5,5 @@ Hack WashU's Application Management System
 Requirements:
 	- GNU Make
 	- [pnpm](https://pnpm.io)
-2. Run `make install`
+  
+1. Run `make install`
