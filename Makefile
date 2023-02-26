@@ -26,7 +26,7 @@ client: all
 	@# Help: runs client in production mode
 
 server: all
-	cd server && $(PACKAGE) run start
+	cd server && $(PACKAGE) exec tsc && $(PACKAGE) run start
 	@# Help: Starts server in production mode
 
 dev-server: all
