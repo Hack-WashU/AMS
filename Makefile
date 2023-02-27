@@ -18,29 +18,18 @@ ifeq (, $(PACKAGE))
 endif
 
 install: all
+	$(PACKAGE) install
 	cd client && $(PACKAGE) install && cd ../server && pnpm install
 	@# Help: installs development dependencies
 
-client: all
-	cd client && $(PACKAGE) run start 
-	@# Help: runs client in production mode
-
-server: all
-	cd server && $(PACKAGE) exec tsc && $(PACKAGE) run start
-	@# Help: Starts server in production mode
-
-dev-server: all
-	cd server && $(PACKAGE) run dev
+dev: all database-start
+	$(PACKAGE) exec npm-run-all --parallel dev-client dev-server
 	@# Help: Starts server in dev mode
 
-database-init:
-	# TODO: Replace with docker-compose
-	docker run -p "5432:5432" --name "postgres" -d -e POSTGRES_PASSWORD="supersecret" postgres
-	docker run --name "supertokens"  -p 3567:3567 -e POSTGRES_CONNECTION_URI="postgresql://postgres:supersecret@localhost:5432" -d registry.supertokens.io/supertokens/supertokens-postgresql
-	@# Help: Starts a mongodb database in a docker container
+database-start:
+	docker-compose up -d
+	@# Help: Starts a postgres database and a supertokens instance
 
 database-stop:
-	docker stop postgres || true
-
-database-start:
-	docker start postgres || true
+	docker-compose down
+	@# Help: Stops postgres database and supertokens
