@@ -34,7 +34,9 @@ dev-server: all
 	@# Help: Starts server in dev mode
 
 database-init:
+	# TODO: Replace with docker-compose
 	docker run -p "5432:5432" --name "postgres" -d -e POSTGRES_PASSWORD="supersecret" postgres
+	docker run --name "supertokens"  -p 3567:3567 -e POSTGRES_CONNECTION_URI="postgresql://postgres:supersecret@localhost:5432" -d registry.supertokens.io/supertokens/supertokens-postgresql
 	@# Help: Starts a mongodb database in a docker container
 
 database-stop:
