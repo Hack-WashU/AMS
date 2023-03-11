@@ -16,6 +16,9 @@ export default defineComponent({
     redirectToLogin() {
       window.location.href = "/auth";
     },
+    apply() {
+      window.location.href = "/apply";
+    },
     async getUserInfo() {
       this.session = await Session.doesSessionExist();
       if (this.session) {
@@ -38,6 +41,7 @@ export default defineComponent({
       <div v-if="session">
         <span>UserId:</span>
         <h3>{{ userId }}</h3>
+        <button @click="apply">Apply</button>
 
         <button @click="onLogout">Sign Out</button>
       </div>
@@ -61,6 +65,7 @@ export default defineComponent({
   align-items: center;
   height: 100vh;
 }
+
 .user {
   display: flex;
   flex-direction: row;
@@ -68,19 +73,23 @@ export default defineComponent({
   align-items: baseline;
   padding: 0.1rem;
 }
+
 span {
   margin-right: 0.3rem;
   font-size: large;
 }
+
 h3 {
   color: #ff3e00;
 }
+
 h1 {
   color: #ff3e00;
   text-transform: uppercase;
   font-size: 4em;
   font-weight: 100;
 }
+
 button {
   cursor: pointer;
   background-color: #ffb399;
@@ -92,9 +101,9 @@ button {
   border-radius: 2rem;
   font-size: large;
 }
+
 button:hover {
   transform: scale(1.1);
   background-color: #ff3e00;
   color: white;
-}
-</style>
+}</style>

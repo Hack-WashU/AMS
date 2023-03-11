@@ -17,16 +17,48 @@ export const SuperTokensConfig: TypeInput = {
         apiDomain: `http://localhost:${process.env.BACKEND_PORT}`,
         apiBasePath: "/auth",
         websiteDomain: `http://localhost:${process.env.FRONTEND_PORT}`,
-        websiteBasePath: "/login"
+        websiteBasePath: "/auth"
     },
     recipeList: [
         Passwordless.init({
-            flowType: "USER_INPUT_CODE",
-            contactMethod: "EMAIL"
+            flowType: "MAGIC_LINK",
+            contactMethod: "EMAIL",
+
+            override: {
+                apis: (originalImplementation) => {
+                    return {
+                        ...originalImplementation,
+                        consumeCodePOST: async (input) => {
+
+                            if (originalImplementation.consumeCodePOST === undefined) {
+                                throw Error("Should never come here");
+                            }
+                            
+                            // First we call the original implementation of consumeCodePOST.
+                            let response = await originalImplementation.consumeCodePOST(input);
+
+                            // Post sign up response, we check if it was successful
+                            if (response.status === "OK") {
+                                let { id, email, phoneNumber } = response.user;
+
+                                if (response.createdNewUser) {
+                                    // TODO: post sign up logic
+                                    console.log("New user created: ", id, email, phoneNumber)
+                                    // run prisma script --> extract to new file?
+                                } else {
+                                    // TODO: post sign in logic
+                                    console.log("User signed in: ", id, email, phoneNumber)
+                                }
+                            }
+                            return response;
+                        }
+                    }
+                }
+            }
         }),
         Session.init(),
         Dashboard.init({
             apiKey: 'abcd'
-        })
+        }),
     ]
 };

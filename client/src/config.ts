@@ -11,7 +11,7 @@ export const SuperTokensReactConfig = {
   recipeList: [
     PasswordlessReact.init({
       useShadowDom: false,
-      contactMethod: "EMAIL_OR_PHONE",
+      contactMethod: "EMAIL",
     }),
     SessionReact.init(),
   ],
