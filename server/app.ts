@@ -20,7 +20,7 @@ app.use(cors({
     credentials: true,
 }))
 
-const port = process.env.PORT;
+const port = process.env.BACKEND_PORT;
 
 // Define external routes
 
@@ -28,11 +28,6 @@ const port = process.env.PORT;
 app.use(middleware());
 
 app.use(errorHandler())
-
-import axios from 'axios';
-app.get('/', async (req: Request, res: Response) => {
-    axios.get("http://localhost:3567").then(res => console.log(res.data))
-});
 
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${process.env.BACKEND_PORT}`);
