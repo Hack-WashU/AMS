@@ -1,5 +1,5 @@
 PACKAGE := $(shell which pnpm)
-.PHONY: help client server dev-client dev-server
+.PHONY: install dev database-start database-stop
 
 # Prints Makefile help output
 help:
@@ -16,6 +16,7 @@ ifeq (, $(PACKAGE))
 	$(warning "pnpm not present. Setting default executable to make")
 	$(eval PACKAGE=$(shell which npm))
 endif
+	@# Help: Auxillary target to set default node package manager
 
 install: all
 	$(PACKAGE) install
