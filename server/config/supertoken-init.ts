@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: '../.env' });
 
+import {createUser, fetchUser} from "../scripts/firstlogin";
+
 // create supertokens config
 export const SuperTokensConfig: TypeInput = {
     framework: "express",
@@ -40,14 +42,22 @@ export const SuperTokensConfig: TypeInput = {
                             // Post sign up response, we check if it was successful
                             if (response.status === "OK") {
                                 let { id, email, phoneNumber } = response.user;
+                                email = email!; // asserts not null
 
                                 if (response.createdNewUser) {
                                     // TODO: post sign up logic
-                                    console.log("New user created: ", id, email, phoneNumber)
-                                    // run prisma script --> extract to new file?
+                                    try {
+                                        await createUser(id, email);
+                                    } catch (e) {
+                                        console.error(e);
+                                    }
                                 } else {
-                                    // TODO: post sign in logic
-                                    console.log("User signed in: ", id, email, phoneNumber)
+                                    try {
+                                        const user = await fetchUser(id);
+                                        console.log(user)
+                                    } catch (e) {
+                                        console.error(e);
+                                    }
                                 }
                             }
                             return response;
