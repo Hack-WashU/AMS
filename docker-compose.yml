@@ -4,15 +4,15 @@ services:
   # Note: If you are assigning a custom name to your db service on the line below, make sure it does not contain underscores
   db:
     image: 'postgres:latest'
-    environment:
-      POSTGRES_PASSWORD: supersecret
-      POSTGRES_USER: postgres
-      POSTGRES_DB: AMS
+    env_file:
+      - .env
     ports:
       - 5432:5432
     networks:
       - app_network
     restart: unless-stopped
+    volumes:
+      - db:/var/lib/postgresql/data
 
   supertokens:
     image: registry.supertokens.io/supertokens/supertokens-postgresql:4.4
@@ -20,6 +20,8 @@ services:
       - 3567:3567
     environment:
       POSTGRESQL_CONNECTION_URI: "postgresql://postgres:supersecret@db:5432/postgres"
+    env_file:
+      - .env
     networks:
       - app_network
     restart: unless-stopped
@@ -27,3 +29,6 @@ services:
 networks:
   app_network:
     driver: bridge
+
+volumes:
+  db:

@@ -15,7 +15,7 @@ const app: Express = express();
 // Define Express middleware
 app.use(bodyParser.json());
 app.use(cors({
-    origin: `http://localhost:${process.env.FRONTEND_PORT}`,
+    origin: `http://${process.env.FRONTEND_DOMAIN}:${process.env.FRONTEND_PORT}`,
     allowedHeaders: ["content-type", ...supertokens.getAllCORSHeaders()],
     credentials: true,
 }))
@@ -23,6 +23,7 @@ app.use(cors({
 const port = process.env.BACKEND_PORT;
 
 // Define external routes
+app.use('/users', require('./routes/users').default)
 
 // Defines supertokens auth routes
 app.use(middleware());
@@ -30,5 +31,5 @@ app.use(middleware());
 app.use(errorHandler())
 
 app.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${process.env.BACKEND_PORT}`);
+    console.log(`⚡️[server]: Server is running at http://${process.env.BACKEND_DOMAIN}:${process.env.BACKEND_PORT}`);
 });
