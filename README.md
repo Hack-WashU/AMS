@@ -9,6 +9,6 @@ Requirements:
 - Docker
 - Either npm or pnpm
 
-1. Run `make install`
-2. Copy `example.env` into `.env`, changing any variables if necessary
+1. Copy `example.env` into `.env`, changing any variables if necessary
+2. Run `make install`
 3. Run `make dev`

@@ -23,7 +23,7 @@ endif
 install: all
 	$(PACKAGE) install
 	cd client && $(PACKAGE) install && cd ../server && $(PACKAGE) install
-	cd server && $(PACKAGE) exec prisma generate && $(PACKAGE) exec prisma migrate dev
+	cd server && $(PACKAGE) exec tsc && $(PACKAGE) exec prisma generate
 	@# Help: installs development dependencies
 
 dev: all database-start
@@ -32,6 +32,7 @@ dev: all database-start
 
 database-start:
 	docker-compose up -d
+	cd server && sleep 3 && $(PACKAGE) exec prisma migrate dev
 	@# Help: Starts a postgres database and a supertokens instance
 
 database-stop:
@@ -40,3 +41,4 @@ database-stop:
 
 database-reset: database-stop
 	docker-compose down -v 
+	@# Help: Resets postgres database and supertokens
