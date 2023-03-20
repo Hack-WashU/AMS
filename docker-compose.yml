@@ -18,8 +18,6 @@ services:
     image: registry.supertokens.io/supertokens/supertokens-postgresql:4.4
     ports:
       - 3567:3567
-    environment:
-      POSTGRESQL_CONNECTION_URI: "postgresql://postgres:supersecret@db:5432/postgres"
     env_file:
       - .env
     networks:

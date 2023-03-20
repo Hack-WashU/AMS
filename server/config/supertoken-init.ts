@@ -3,10 +3,11 @@ import { TypeInput } from "supertokens-node/types";
 import Passwordless from "supertokens-node/recipe/passwordless";
 import Dashboard from "supertokens-node/recipe/dashboard";
 import dotenv from "dotenv";
-
-dotenv.config({ path: '../.env' });
-
+import dotenvexpand from "dotenv-expand";
 import {createUser, fetchUser} from "../scripts/firstlogin";
+
+let env = dotenv.config({ path: '../.env' });
+dotenvexpand.expand(env);
 
 // create supertokens config
 export const SuperTokensConfig: TypeInput = {
@@ -43,7 +44,7 @@ export const SuperTokensConfig: TypeInput = {
                             if (response.status === "OK") {
                                 let { id, email, phoneNumber } = response.user;
                                 email = email!; // asserts not null
-
+                                
                                 if (response.createdNewUser) {
                                     // TODO: post sign up logic
                                     try {

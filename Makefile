@@ -20,7 +20,7 @@ endif
 
 install: all
 	$(PACKAGE) install
-	cd client && $(PACKAGE) install && cd ../server && pnpm install
+	cd client && $(PACKAGE) install && cd ../server && $(PACKAGE) install && $(PACKAGE) exec prisma generate
 	@# Help: installs development dependencies
 
 dev: all database-start
