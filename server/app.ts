@@ -2,13 +2,14 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors'
 import bodyParser from 'body-parser';
-
+import dotenvexpand from 'dotenv-expand'
 import supertokens from 'supertokens-node'
 import { middleware, errorHandler } from 'supertokens-node/framework/express'
 import { SuperTokensConfig } from './config/supertoken-init'
-supertokens.init(SuperTokensConfig)
 
-dotenv.config({ path: '../.env' });
+supertokens.init(SuperTokensConfig)
+let env = dotenv.config({ path: '../.env' });
+dotenvexpand.expand(env);
 
 const app: Express = express();
 
