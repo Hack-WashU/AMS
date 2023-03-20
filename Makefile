@@ -1,4 +1,5 @@
 PACKAGE := $(shell which pnpm)
+POSTGRES_URL := $(shell cat .env | grep POSTGRES_URL)
 .PHONY: install dev database-start database-stop
 
 # Prints Makefile help output
@@ -16,11 +17,13 @@ ifeq (, $(PACKAGE))
 	$(warning "pnpm not present. Setting default executable to make")
 	$(eval PACKAGE=$(shell which npm))
 endif
+	echo $(POSTGRES_URL) > server/.env
 	@# Help: Auxillary target to set default node package manager
 
 install: all
 	$(PACKAGE) install
-	cd client && $(PACKAGE) install && cd ../server && $(PACKAGE) install && $(PACKAGE) exec prisma generate
+	cd client && $(PACKAGE) install && cd ../server && $(PACKAGE) install
+	cd server && $(PACKAGE) exec prisma generate && $(PACKAGE) exec tsc
 	@# Help: installs development dependencies
 
 dev: all database-start
@@ -29,8 +32,13 @@ dev: all database-start
 
 database-start:
 	docker-compose up -d
+	cd server && sleep 3 && $(PACKAGE) exec prisma migrate dev
 	@# Help: Starts a postgres database and a supertokens instance
 
 database-stop:
 	docker-compose down
 	@# Help: Stops postgres database and supertokens
+
+database-reset: database-stop
+	docker-compose down -v 
+	@# Help: Resets postgres database and supertokens
