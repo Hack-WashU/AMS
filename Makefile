@@ -23,7 +23,7 @@ endif
 install: all
 	$(PACKAGE) install
 	cd client && $(PACKAGE) install && cd ../server && $(PACKAGE) install
-	cd server && $(PACKAGE) exec tsc && $(PACKAGE) exec prisma generate
+	cd server && $(PACKAGE) exec prisma generate && $(PACKAGE) exec tsc
 	@# Help: installs development dependencies
 
 dev: all database-start
