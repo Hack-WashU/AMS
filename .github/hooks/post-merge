@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Get the list of changed files in the pull request
+changed_files=$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)
+
+# Check if the package.json file is in the list of changed files
+echo "$changed_files" | grep --quiet "package.json"
+if [ $? -eq 0 ]; then
+	# Run npm install to update dependencies
+	make install
+fi
+
+# Exit with success status
+exit 0
