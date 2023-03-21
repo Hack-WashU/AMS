@@ -36,7 +36,7 @@ export default defineComponent({
 <template>
   <main>
     <div className="body">
-      <h1>Hello</h1>
+      <h1>Hack WashU</h1>
 
       <div v-if="session">
         <span>UserId:</span>
@@ -47,10 +47,7 @@ export default defineComponent({
       </div>
       <div v-else>
         <p>
-          Visit the
-          <a href="https://supertokens.com">SuperTokens tutorial</a> to learn
-          how to build Auth under a day.
-        </p>
+        Hack WashU is super cool        </p>
         <button @click="redirectToLogin">Sign in</button>
       </div>
     </div>
@@ -80,11 +77,11 @@ span {
 }
 
 h3 {
-  color: #ff3e00;
+  color: lime;
 }
 
 h1 {
-  color: #ff3e00;
+  color: blue;
   text-transform: uppercase;
   font-size: 4em;
   font-weight: 100;
